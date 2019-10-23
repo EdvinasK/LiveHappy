@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <UserSecretsId>aspnet-LiveHappy.Application-214B9CF6-9E75-4179-9E14-EE92DD49B06A</UserSecretsId>
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+    <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\LiveHappy.Domain\LiveHappy.Domain.csproj" />
+    <ProjectReference Include="..\LiveHappy.Infrastructure\LiveHappy.Infrastructure.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="Controllers API\" />
+  </ItemGroup>
+
+</Project>

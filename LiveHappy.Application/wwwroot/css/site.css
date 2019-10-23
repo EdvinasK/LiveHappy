@@ -1,0 +1,114 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+
+/*body {
+    background:
+        linear-gradient(45deg, rgb(76, 0, 255), transparent),
+        repeating-linear-gradient(45deg, rgb(183, 0, 255) 0%, rgb(183, 0, 255) 5%, transparent 5%, transparent 10%),
+        rgb(216, 118, 255) repeating-linear-gradient(-45deg, rgba(183, 0, 255, 0.5) 0%, rgba(183, 0, 255, 0.5) 5%, transparent 5%, transparent 10%);
+}*/
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+
+/*Custom*/
+#editor-container {
+    height: 375px;
+}
+
+button.close-top {
+    line-height: 0;
+}
+
+span.close-top {
+    margin-left: 10px;
+}
+
+span.tag-name {
+    background-color: #17a2b8;
+    animation: pulse 0.3s linear 1;
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
+}
+
+span.tag-name:hover {
+    background-color: #0d6775;
+}
+
+/*.tag-list-btn {
+    border-radius: 50%;
+}*/
+
+.material-icon-medium {
+    font-size: 16px;
+}
+
+@keyframes pulse {
+    25% {
+        transform: scale(0.9);
+    }
+
+    75% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes push {
+    50% {
+        transform: scale(0.8);
+    }
+}

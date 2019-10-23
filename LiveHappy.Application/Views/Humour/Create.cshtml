@@ -1,0 +1,101 @@
+﻿@model LiveHappy.Domain.Models.Anecdote
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@section Scripts{ 
+    <script>
+        var tagNo = 0;
+        var quill = new Quill('#editor-container', {
+            modules: {
+                toolbar: [
+                    [{ header: [1, 2, false] }],
+                    ['bold', 'italic', 'underline'],
+                    ['image', 'code-block']
+                ]
+            },
+            placeholder: 'Enter anecdote here',
+            theme: 'snow'  // or 'bubble'
+        });
+
+        $("#anecdote-form").submit(function () {
+            $("#content").val(quill.root.innerHTML);
+            return true;
+        });
+
+        $("#tag-input-group").on("click", "button.close", function () {
+            $tagNameEle = $(this).closest(".tag-name");
+            $(this).closest(".tag-name").fadeOut(200, function () {
+                $tagNameEle.remove();
+            });
+        });
+
+        $("div.input-group button#TagCollectionCreateTagBtn").on("click", function () {
+            var tagName = $("#TagCollectionString").val();
+
+            if (tagName !== "" && tagName.length < 30) {
+                $("div#tag-input-group").append("\
+                <span class=\"badge badge-pill badge-info badge-close tag-name\" style=\"padding-top: 5px; \">\
+                " + tagName + "\
+                    <span class=\"close-top\" >\
+                        <button type=\"button\" class=\"close close-top\" aria-label=\"Close\">\
+                            <span aria-hidden=\"true\">&times;</span>\
+                        </button>\
+                        <input id='tags_" + tagNo + "' type='hidden' name='AnecdoteTags[" + tagNo + "].Tag.Name' class='form-control' value='" + tagName + "'>\
+                    </span >\
+                </span>");
+
+                tagNo++;
+
+                $("#TagCollectionString").val("");
+            } else {
+
+            }
+        });
+    </script>
+}
+
+<h1>Create</h1>
+
+<h4>Anecdote</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="anecdote-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <div id="editor-container">
+                </div>
+                <input type="hidden" id="content" asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div id="tag-input-group" class="form-group">
+                <label asp-for="AnecdoteTags" class="control-label"></label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button id="TagCollectionClearTagsBtn" class="btn btn-outline-danger" type="button">Clear</button>
+                    </div>
+                    <input class="form-control" data-toggle="tooltip" title="Enter text here and press enter to add tag" aria-label="Enter text here and press enter to add tag" aria-describedby="basic-addon2" name="TagCollectionString" id="TagCollectionString" type="text" placeholder="e.g. Weekend" />
+                    <div class="input-group-append">
+                        <button id="TagCollectionCreateTagBtn" class="btn btn-outline-success" type="button">Add</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

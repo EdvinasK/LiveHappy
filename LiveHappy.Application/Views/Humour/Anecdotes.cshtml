@@ -1,0 +1,82 @@
+﻿@model List<Anecdote>
+@{
+    ViewData["Title"] = "Anecdotes";
+}
+
+<h1>Anekdotai</h1>
+
+<div class="row mb-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <h5>Paieška</h5>
+                <form asp-controller="Humour" asp-action="Anecdotes" method="get">
+                    <div class="input-group mb-3 mt-3">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-info" onclick="return false;" data-toggle="collapse" href="#collapse-advanced-filter" role="button" aria-expanded="false" aria-controls="collapse-advanced-filter">Išplėstine paieška <i class="material-icons material-icon-medium">arrow_drop_down</i></button>
+                        </div>
+                        <input type="text" class="form-control" id="anecdote-searchfield-id" name="searchTags" placeholder="Paieškos pvz: #Petriukas #Statybos" aria-label="Recipient's username" aria-describedby="basic-addon2" value="@ViewBag.SearchTag">
+                        <div class="input-group-append">
+                            <button class="btn btn-success">Ieškoti</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="collapse" id="collapse-advanced-filter">
+                <form asp-controller="Humour" asp-action="Anecdotes" method="get">
+                    <div class="row p-2 pl-4">
+                        <div class="md-1 mr-2">Rūšiuoti pagal:</div>
+                        <div class="md-2"><div class="btn btn-dark">Data</div></div>
+                    </div>
+                    <div class="row pl-4">
+                        <div class="md-1 mr-2">Autorius:</div>
+                        <div class="md-2"><input type="text" class="form-control" value="" placeholder="Pvz: Jonas Jonaitis" aria-label="Autoriaus vardas" aria-describedby="basic-addon2" /></div>
+                    </div>
+                    @*<div class="collapse" id="collapse-advanced-filter">
+                <div class="card-body bg-white">
+                    <div class="card-group">
+                        <div class="card-columns">
+                            Rūšiuoti pagal: <div class="btn btn-dark">Data</div>
+                        </div>
+                        <div class="card-columns">
+                            Autorius: <input type="text" class="form-control" value="" placeholder="Pvz: Jonas Jonaitis" aria-label="Autoriaus vardas" aria-describedby="basic-addon2" />
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var anecdote in Model)
+    {
+        <div class="col-md-6 mb-1">
+            <div class="card">
+                <div class="card-header">
+                    <strong>@anecdote.Title</strong> 
+                    <small><i>@anecdote.CreatedTime.ToString("yyyy/MM/dd")</i></small>
+                    <div style="display:inline" class="dropdown float-right">
+                        @if (anecdote.AnecdoteTags.Count > 0)
+                        {
+                            <button class="btn btn-light btn-sm dropdown-toggle tag-list-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">local_offer</i> <small>@anecdote.AnecdoteTags.Count</small>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                @foreach (var tag in anecdote.AnecdoteTags)
+                                {
+                                    <a class="dropdown-item" asp-controller="Humour" asp-action="Anecdotes" asp-route-searchTags="@tag.Tag.Name">@tag.Tag.Name</a>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="card-body">
+                    @Html.Raw(anecdote.Content)
+                </div>
+            </div>
+        </div>
+    }
+</div>
