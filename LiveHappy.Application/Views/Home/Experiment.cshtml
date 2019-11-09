@@ -1,0 +1,30 @@
+﻿@model IEnumerable<string>
+@{
+    ViewData["Title"] = "Experiment";
+    int counter = 0;
+}
+
+<h1>Experiment</h1>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-3">
+                @foreach (var experiment in Model)
+                {
+                    if (counter != 0 && counter % 3 == 0)
+                    {
+                    @:</div>
+                    @:<div class="col-md-3">
+                    }
+
+                    <div class="list-group">
+                        <a asp-controller="Home" asp-action="Experiment" asp-route-experimentName="@experiment" class="list-group-item list-group-item-secondary">@experiment</a>
+                    </div>
+
+                    counter++;
+                }
+            </div>
+        </div>
+    </div>
+</div>

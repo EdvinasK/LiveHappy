@@ -10,6 +10,9 @@ using LiveHappy.Infrastructure;
 using LiveHappy.Domain.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using LiveHappy.Infrastructure.Services;
+using LiveHappy.Infrastructure.Policies;
+using Microsoft.AspNetCore.Authorization;
+using FluentValidation.AspNetCore;
 
 namespace LiveHappy.Application
 {
@@ -43,18 +46,36 @@ namespace LiveHappy.Application
                 options.Password.RequireDigit = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireLowercase = true;
+                options.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Home/NotFoundPage";
+            });
+
+            services.AddAuthorization(options => {
+                options.AddPolicy("AdminPolicy",
+                    builder => builder.RequireRole("Admin"));
+                options.AddPolicy("FeaturePolicy",
+                    builder => builder.RequireRole("Admin", "VIP"));
+                options.AddPolicy("ReadPolicy",
+                    builder => builder.RequireRole("Admin", "VIP", "Member"));
+                options.AddPolicy("AdultPolicy",
+                        policy => policy.Requirements.Add(new MinimumAgeRequirement(18)));
+            });
+
+            // Move them to container and migrate to Ninject
             services.AddScoped<SignInManager<User>, SignInManager<User>>();
-
-            //services.AddDefaultIdentity<IdentityUser>()
-            //    .AddDefaultUI(UIFramework.Bootstrap4)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            services.AddSingleton<IAuthorizationHandler, MinimumAgeHandler>();
             services.AddScoped<IEmailSender, EmailSender>();
+
+            // Add Swagger
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +102,14 @@ namespace LiveHappy.Application
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "experiment",
+                    template: "experiments/{experimentName}",
+                    defaults: new { controller = "Home", action = "Experiment" })
+                .MapRoute(
+                    name: "blog",
+                    template: "blog/{**articlePath}",
+                    defaults: new { controller = "Home", action = "Blog" })
+                .MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });

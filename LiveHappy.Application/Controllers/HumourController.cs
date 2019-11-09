@@ -4,6 +4,7 @@ using System.Linq;
 using LiveHappy.Domain.Extensions;
 using LiveHappy.Domain.Models;
 using LiveHappy.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -71,6 +72,7 @@ namespace LiveHappy.Application.Controllers
         }
 
         // GET: Humour/Create
+        [Authorize(Policy = "AdminPolicy")]
         public ActionResult Create()
         {
             return View();
@@ -79,6 +81,7 @@ namespace LiveHappy.Application.Controllers
         // POST: Humour/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AdminPolicy")]
         public IActionResult Create(Anecdote anecdote)
         {
             try

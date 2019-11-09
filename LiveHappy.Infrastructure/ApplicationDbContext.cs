@@ -24,6 +24,7 @@ namespace LiveHappy.Infrastructure
             builder.ApplyConfiguration(new AnecdoteTagConfiguration());
             builder.ApplyConfiguration(new TagConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new UserRoleConfiguration());
         }
     }
 }
