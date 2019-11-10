@@ -13,6 +13,7 @@ using LiveHappy.Infrastructure.Services;
 using LiveHappy.Infrastructure.Policies;
 using Microsoft.AspNetCore.Authorization;
 using FluentValidation.AspNetCore;
+using LiveHappy.Infrastructure.Hubs;
 
 namespace LiveHappy.Application
 {
@@ -76,6 +77,8 @@ namespace LiveHappy.Application
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,11 +102,15 @@ namespace LiveHappy.Application
 
             app.UseAuthentication();
 
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chatHub");
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "experiment",
-                    template: "experiments/{experimentName}",
+                    template: "experiments/{experimentName?}",
                     defaults: new { controller = "Home", action = "Experiment" })
                 .MapRoute(
                     name: "blog",

@@ -5,6 +5,7 @@
     <UserSecretsId>aspnet-LiveHappy.Application-214B9CF6-9E75-4179-9E14-EE92DD49B06A</UserSecretsId>
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
     <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
+    <TypeScriptToolsVersion>3.4</TypeScriptToolsVersion>
   </PropertyGroup>
 
 
@@ -24,6 +25,7 @@
   <ItemGroup>
     <Folder Include="Commands\" />
     <Folder Include="Controllers API\" />
+    <Folder Include="wwwroot\js\Core\" />
   </ItemGroup>
 
 </Project>
